@@ -2,7 +2,31 @@
   "rules": {
     "users": {
       "$uid": {
-        ".validate": "newData.hasChildren(['profile'])",
+        ".validate": "newData.hasChildren(['emergency', 'profile'])",
+        "emergency": {
+          ".validate": "newData.hasChildren(['status'])",
+          "status": {
+            ".validate": "newData.isBoolean()"
+          },
+          "tracking": {
+            "$key1": {
+              ".validate": "newData.hasChildren(['lat', 'long'])",
+              "lat": {
+                ".validate": "newData.isNumber()"
+              },
+              "long": {
+                ".validate": "newData.isNumber()"
+              },
+              "$other": {
+                ".validate": "false"
+              }
+            },
+            ".validate": "newData.hasChildren()"
+          },
+          "$other": {
+            ".validate": "false"
+          }
+        },
         "profile": {
           ".validate": "newData.hasChildren(['name', 'email', 'phone', 'emailNotifications', 'phoneNotifications'])",
           "name": {
@@ -25,7 +49,7 @@
           }
         },
         "members": {
-          "$key1": {
+          "$key2": {
             ".validate": "newData.hasChildren(['name', 'phone', 'email', 'done'])",
             "name": {
               ".validate": "newData.isString()"
