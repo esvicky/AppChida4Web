@@ -14,11 +14,15 @@ class App extends Component {
         <p className="App-intro">
           Aquí podrás visualizar mi ruta, ya que he activado el botón de emergencia para que sepas donde estoy.
         </p>
+        <h3>MAPA</h3>
         <div className="App-map">
-          <p>
-            Prueba Prueba
-          </p>
           <Maps />
+        </div>
+        <div>
+          <footer className="App-footer">
+            <img src={logo} className="App-logo" alt="logo" />
+            <h1 className="App-title">KEEP ME SAFE</h1>
+          </footer>
         </div>
       </div>
     );
