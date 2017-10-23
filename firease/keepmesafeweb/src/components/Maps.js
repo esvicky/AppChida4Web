@@ -1,30 +1,26 @@
 import React, { Component } from 'react';
+var googleMaps = require('@google/maps').createClient({ key: 'AIzaSyCMSvZ7JeGXqQn60QvCeNoO404RwBjQpvo', Promise: Promise});
 
 class Maps extends Component {
-	 async componentWillMount () {
-        const script = document.createElement("script");
-
-        script.src = "https://maps.googleapis.com/maps/api/js?key=MIAPIKEY&callback=initMap";
-        script.async = true;
-
-        document.body.appendChild(script);
-    }
+  constructor(){
+    super();
+      this.initMap = this.initMap.bind(this);
+  }
 
 	initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
+    //var cords = {lat: -25.363, lng: 131.044};
+    googleMaps.geocode({address: '1600 Amphitheatre Parkway, Mountain View, CA'}).asPromise()
+    .then((response) => {
+      console.log(response.json.results);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 	}
 
 	render(){
 		return(
-			<div id="map"></div>
+			<div>{this.initMap}</div>
 		);
 	}
 }
