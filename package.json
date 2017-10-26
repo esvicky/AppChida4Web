@@ -5,8 +5,10 @@
   "dependencies": {
     "@google/maps": "^0.4.5",
     "@mapbox/point-geometry": "^0.1.0",
+    "firebase": "^4.6.0",
     "google-map-react": "^0.24.0",
     "mapbox-gl": "^0.41.0",
+    "re-base": "^3.0.5",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-google-maps": "^9.0.2",
