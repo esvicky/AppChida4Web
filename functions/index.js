@@ -32,6 +32,13 @@ exports.sanitize = functions.database
        // return event.data.ref.set(question);
 });
 
+exports.geolocate = functions.database
+    .ref('/users/{userId}/emergency/events/{eventId}')
+    .onWrite(location => {
+      const locate = location.data.val();
+      console.log(JSON.stringify(locate));
+});
+
 sanitize = s => {
     let sanitatizeText = s;
     sanitatizeText = sanitatizeText.replace(/\bstupid\b/ig, "great");
