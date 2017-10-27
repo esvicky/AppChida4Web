@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import './App.css';
+import firebase from 'firebase'
 import Maps from './components/Maps';
+import './App.css';
 
 class App extends Component {
+  componentWillMount(){
+    firebase.initializeApp({
+      apiKey: "AIzaSyAjcTEES1yLGNyW1keIoWvSPesIpqHofbA",
+      authDomain: "datausers-432fe.firebaseapp.com",
+      databaseURL: "https://datausers-432fe.firebaseio.com",
+      projectId: "datausers-432fe",
+    });
+  }
   render() {
     return (
       <div className="App">
