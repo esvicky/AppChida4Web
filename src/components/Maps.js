@@ -25,11 +25,11 @@ class Maps extends Component {
             long: ,
         });
   }
-
+*/
   componentDidMount() {
     this.delayedShowMarker()
   }
-*/
+
   delayedShowMarker = () => {
     setTimeout(() => {
       this.setState({ isMarkerShown: true })
