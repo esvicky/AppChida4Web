@@ -30,8 +30,8 @@ exports.alert = functions.database
         }
 });
 
-exports.geolocate = functions.database
-    .ref('/users/{userId}/emergency/events')
+exports.event = functions.database
+    .ref('/users/{userId}/emergency/events/{eventId}')
     .onWrite(locationList => {
       const objectTrack = locationList.data.val();
       console.log(JSON.stringify(objectTrack));
