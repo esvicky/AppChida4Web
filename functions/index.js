@@ -26,7 +26,7 @@ exports.sanitize = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-            
+            //something
         }
         
        // return event.data.ref.set(question);
