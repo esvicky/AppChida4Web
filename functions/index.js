@@ -32,9 +32,9 @@ exports.alert = functions.database
 
 exports.geolocate = functions.database
     .ref('/users/{userId}/emergency/events')
-    .onWrite(tracks => {
-      const tracks = location.data.val();
-      console.log(JSON.stringify(tracks));
+    .onWrite(locationList => {
+      const objectTrack = locationList.data.val();
+      console.log(JSON.stringify(objectTrack));
 });
 /*
 sanitize = s => {
