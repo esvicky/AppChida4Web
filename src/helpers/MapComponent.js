@@ -4,7 +4,7 @@ import { compose, withProps } from 'recompose';
 
 export const MapComponent = compose(
   withProps({
-    googleMapURL: "https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places",
+    googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyAEIREWRJJ4vzubRZ-dIrJqYFanw3c-cpA&v=3.exp&libraries=geometry,drawing,places",
     loadingElement: <div style={{ height: `100%` }} />,
     containerElement: <div style={{ height: `500px`, weight: `600px` }} />,
     mapElement: <div style={{ height: `100%`, weight: `100%` }} />,
@@ -16,3 +16,7 @@ export const MapComponent = compose(
       {props.isMarkerShown && <Marker position={{ lat: 19.351, lng: -99.158 }} onClick={props.onMarkerClick} />}
     </GoogleMap>
 );
+
+//"https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
+//AIzaSyA2p08r2WMW-mBISZPUlCdQXzoCt0HmxSw
+//AIzaSyAEIREWRJJ4vzubRZ-dIrJqYFanw3c-cpA
