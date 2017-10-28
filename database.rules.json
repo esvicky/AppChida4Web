@@ -8,24 +8,37 @@
           "status": {
             ".validate": "newData.isBoolean()"
           },
-          "tracking": {
+          "events": {
             "$key1": {
-              ".validate": "newData.hasChildren(['lat', 'long'])",
-              "lat": {
-                ".validate": "newData.isNumber()"
-              },
-              "long": {
-                ".validate": "newData.isNumber()"
+              ".validate": "newData.hasChildren()",
+              "tracking": {
+                "$key2": {
+                  ".validate": "newData.hasChildren(['lat', 'long'])",
+                  "lat": {
+                    ".validate": "newData.isNumber()"
+                  },
+                  "long": {
+                    ".validate": "newData.isNumber()"
+                  },
+                  "$other": {
+                    ".validate": "false"
+                  },
+                  ".read": "true"
+                },
+                ".validate": "newData.hasChildren()"
               },
               "$other": {
                 ".validate": "false"
-              }
+              },
+              ".read": "true"
             },
             ".validate": "newData.hasChildren()"
           },
           "$other": {
             ".validate": "false"
-          }
+          },
+          ".read": "true",
+          ".write": "true"
         },
         "profile": {
           ".validate": "newData.hasChildren(['name', 'email', 'phone', 'emailNotifications', 'phoneNotifications'])",
@@ -49,7 +62,7 @@
           }
         },
         "members": {
-          "$key2": {
+          "$key3": {
             ".validate": "newData.hasChildren(['name', 'phone', 'email', 'done'])",
             "name": {
               ".validate": "newData.isString()"

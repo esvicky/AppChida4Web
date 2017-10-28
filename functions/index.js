@@ -20,7 +20,7 @@ twilio.messages
               .then((message) => console.log(message.sid));
 */
 
-exports.sanitize = functions.database
+exports.alert = functions.database
     .ref('/users/{userId}/emergency/status')
     .onWrite(event => {
         const status = event.data.val();
@@ -28,19 +28,17 @@ exports.sanitize = functions.database
         if(status === true){
             //something
         }
-        
-       // return event.data.ref.set(question);
 });
 
 exports.geolocate = functions.database
-    .ref('/users/{userId}/emergency/events/{eventId}')
-    .onWrite(location => {
-      const locate = location.data.val();
-      console.log(JSON.stringify(locate));
+    .ref('/users/{userId}/emergency/events')
+    .onWrite(tracks => {
+      const tracks = location.data.val();
+      console.log(JSON.stringify(tracks));
 });
-
+/*
 sanitize = s => {
     let sanitatizeText = s;
     sanitatizeText = sanitatizeText.replace(/\bstupid\b/ig, "great");
     return sanitatizeText;
-}
+}*/

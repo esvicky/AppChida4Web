@@ -24,12 +24,12 @@ class Maps extends Component {
             lat: this,
             long: ,
         });
-  }*/
+  }
 
   componentDidMount() {
     this.delayedShowMarker()
   }
-
+*/
   delayedShowMarker = () => {
     setTimeout(() => {
       this.setState({ isMarkerShown: true })
