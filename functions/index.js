@@ -19,20 +19,24 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
+          const userId = 'kdpXJyEGGze5Oa7clXu9izfT6Sd2';
+          const eventId = '1509371370647';
+          const phone = '+525510073148';
+          const twilioPhone = '+19526796269';
           twilio.messages
             .create({
-              to: '+525510073148',
-              from: '+19526796269',
-              body: `Ve a este link: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`,
+              to: phone,
+              from: twilioPhone,
+              body: `Estoy en peligro, encuentrame en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`,
             })
             .then((message) => console.log(message.sid, 'success'))
             .catch(e => console.log(e));
         }
 });
-
+/*
 exports.event = functions.database
     .ref('/users/{userId}/emergency/events/{eventId}')
     .onWrite(locationList => {
       const objectTrack = locationList.data.val();
       console.log(JSON.stringify(objectTrack));
-});
+});*/
