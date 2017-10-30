@@ -19,9 +19,9 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-          let userId = functions.database.ref('/users/{userId}')
-          let eventId = functions.database.ref('/users/{userId}/emergency/events/{eventId}')
-          let members = functions.database.ref('/users/{userId}/members')
+          let userId = functions.database.ref('/users/{userId}');
+          let eventId = functions.database.ref('/users/{userId}/emergency/events/{eventId}');
+          let members = functions.database.ref('/users/{userId}/members');
           console.log(JSON.stringify(members));
           console.log(JSON.stringify(eventId));
           console.log(JSON.stringify(userId));
@@ -32,9 +32,6 @@ exports.alert = functions.database
               body: `Ve a este link: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`,
             })
             .then((message) => console.log(message.sid));
-
-            setTimeout(1000).then(/* ... do whatever );
-          */
         }
 });
 
