@@ -13,7 +13,7 @@ export const MapComponent = compose(
       defaultZoom={8}
       defaultCenter={{ lat: 19.351535, lng: -99.1582022 }} >
       {Object.keys(props.events).map(key => <Marker key={key} position={{ lat: props.events[key].lat, lng: props.events[key].long }} />)}
-      </GoogleMap>
+    </GoogleMap>
 );
 
 //"https://maps.googleapis.com/maps/api/js?key=AIzaSyC4R6AN7SmujjPUIGKdyao2Kqitzr1kiRg&v=3.exp&libraries=geometry,drawing,places"
