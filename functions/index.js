@@ -19,19 +19,14 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-          let userId = functions.database.ref('/users/{userId}');
-          let eventId = functions.database.ref('/users/{userId}/emergency/events/{eventId}');
-          let members = functions.database.ref('/users/{userId}/members');
-          console.log(JSON.stringify(members));
-          console.log(JSON.stringify(eventId));
-          console.log(JSON.stringify(userId));
           twilio.messages
             .create({
               to: '+525510073148',
               from: '+19526796269',
               body: `Ve a este link: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`,
             })
-            .then((message) => console.log(message.sid));
+            .then((message) => console.log(message.sid, 'success'))
+            .catch(e => console.log(e));
         }
 });
 
