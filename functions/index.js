@@ -10,15 +10,8 @@ const twilio = require('twilio')(accountSid, authToken);
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-/*
-twilio.messages
-              .create({
-                to: '',
-                from: '+19526796269',
-                body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
-              })
-              .then((message) => console.log(message.sid));
-*/
+
+
 
 exports.alert = functions.database
     .ref('/users/{userId}/emergency/status')
@@ -26,7 +19,19 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-            //something
+          /*
+          functions.database
+            .ref('/users/{userId}/members/{memberId}/phone')
+          twilio.messages
+            .create({
+              to: '',
+              from: '+19526796269',
+              body: 'This is the ship that made the Kessel Run in fourteen parsecs?',
+            })
+            .then((message) => console.log(message.sid));
+
+            setTimeout(1000).then(/* ... do whatever );
+          */
         }
 });
 
@@ -36,9 +41,3 @@ exports.event = functions.database
       const objectTrack = locationList.data.val();
       console.log(JSON.stringify(objectTrack));
 });
-/*
-sanitize = s => {
-    let sanitatizeText = s;
-    sanitatizeText = sanitatizeText.replace(/\bstupid\b/ig, "great");
-    return sanitatizeText;
-}*/

@@ -25,7 +25,7 @@ class App extends Component {
         </p>
         <h3>MAPA</h3>
         <div className="App-map">
-          <Maps />
+          <Maps userId={this.props.match.params.userId} eventId={this.props.match.params.eventId} />
         </div>
         <div>
           <footer className="App-footer">
