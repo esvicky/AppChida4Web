@@ -21,7 +21,12 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-          console.log(`UserId, ${event.params.userId}`);
+          const userId = event.params.userId;
+          console.log(`UserId:  ${userId}`);
+          const eventId = event.data.ref.parent.child('events').onWrite(track => {
+            return track.data val();
+          });
+
           /*
           const twilioPhone = '+19526796269';
             twilio.messages
