@@ -2,6 +2,8 @@ const accountSid = 'AC189fad9eef9a38b7c137caa7a4b9273b';
 const authToken = 'a5cc77d84f5b391b152f79c24a07a082';
 
 const functions = require('firebase-functions');
+const admin = require('firebase-admin');
+
 const twilio = require('twilio')(accountSid, authToken);
 
 // // Create and Deploy Your First Cloud Functions
@@ -11,7 +13,7 @@ const twilio = require('twilio')(accountSid, authToken);
 //  response.send("Hello from Firebase!");
 // });
 
-
+admin.initializeApp(functions.config().firebase);
 
 exports.alert = functions.database
     .ref('/users/{userId}/emergency/status')
@@ -19,11 +21,15 @@ exports.alert = functions.database
         const status = event.data.val();
         console.log (status);
         if(status === true){
-          const userId = 'kdpXJyEGGze5Oa7clXu9izfT6Sd2';
-          const eventId = '1509371370647';
-          const phone = '+525510073148';
+          var userId = status.parent.parent('/users/{userId}').val();
+          console.log(userId);
+          var userID = status.parent.parent('/users/{key}').val();
+          console.log(userID);
+          var user = status.parent.parent('key').val();
+          console.log(user);
+          /*
           const twilioPhone = '+19526796269';
-          twilio.messages
+            twilio.messages
             .create({
               to: phone,
               from: twilioPhone,
@@ -31,12 +37,6 @@ exports.alert = functions.database
             })
             .then((message) => console.log(message.sid, 'success'))
             .catch(e => console.log(e));
+          */
         }
 });
-/*
-exports.event = functions.database
-    .ref('/users/{userId}/emergency/events/{eventId}')
-    .onWrite(locationList => {
-      const objectTrack = locationList.data.val();
-      console.log(JSON.stringify(objectTrack));
-});*/
