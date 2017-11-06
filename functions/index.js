@@ -19,15 +19,17 @@ exports.alert = functions.database
     .ref('/users/{userId}/emergency/status')
     .onWrite(event => {
         const status = event.data.val();
-        console.log (status);
+        console.log(status);
         if(status === true){
+          //Obtengo el UserId
           const userId = event.params.userId;
           console.log(`UserId:  ${userId}`);
-          const eventId = event.data.ref.parent.child('events').onWrite(track => {
-            return track.data val();
-          });
+          //Obtengo el objeto de eventos
+          const eventRef = event.data.ref.parent.child('events');
+        }
+});
 
-          /*
+/*
           const twilioPhone = '+19526796269';
             twilio.messages
             .create({
@@ -38,5 +40,3 @@ exports.alert = functions.database
             .then((message) => console.log(message.sid, 'success'))
             .catch(e => console.log(e));
           */
-        }
-});
