@@ -24,8 +24,21 @@ exports.alert = functions.database
           //Obtengo el UserId
           const userId = event.params.userId;
           console.log(`UserId:  ${userId}`);
-          //Obtengo el objeto de eventos
-          const eventRef = event.data.ref.parent.child('events');
+          //Obtengo el objeto de members
+          const userRef = admin.database().ref(`/users/${userId}/members`);
+          userRef.once("value", function(members) {
+            console.log(members.val());
+            console.log(JSON.stringify(members.val()));
+          });
+          console.log(userRef.phone);
+          //Obtengo el objeto de eventosx
+          const eventRef = event.data.adminRef.root.child(`/users/${userId}/emergency/events/`);
+          eventRef.once("value", function(snapshot) {
+            console.log(snapshot.val());
+            console.log(JSON.stringify(snapshot.val()));
+            
+          });
+
         }
 });
 
