@@ -20,23 +20,21 @@ exports.alert = functions.database
     .onWrite(event => {
         const status = event.data.val();
         console.log(status);
+
         if(status === true){
           //Obtengo el UserId
           const userId = event.params.userId;
           console.log(`UserId:  ${userId}`);
           //Obtengo el objeto de members
-          const userRef = admin.database().ref(`/users/${userId}/members`);
-          userRef.once("value", function(members) {
+          const memberRef = admin.database().ref(`/users/${userId}/members`);
+          memberRef.once("value", function(members) {
             console.log(members.val());
-            console.log(JSON.stringify(members.val()));
           });
-          console.log(userRef.phone);
-          //Obtengo el objeto de eventosx
+          console.log(memberRef.phone);
+          //Obtengo el objeto de eventos
           const eventRef = event.data.adminRef.root.child(`/users/${userId}/emergency/events/`);
-          eventRef.once("value", function(snapshot) {
-            console.log(snapshot.val());
-            console.log(JSON.stringify(snapshot.val()));
-            
+          eventRef.once("value", function(events) {
+            console.log(events.val());           
           });
 
         }
