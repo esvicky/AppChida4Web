@@ -21,7 +21,7 @@ class App extends Component {
           <h1 className="App-title">KEEP ME SAFE</h1>
         </header>
         <p className="App-intro">
-          Aquí podrás visualizar mi ruta, ya que he activado el botón de emergencia para que sepas donde estoy.
+          Aquí podrás visualizar su ruta, ya que activó el botón de emergencia.
         </p>
         <h3>MAPA</h3>
         <div className="App-map">

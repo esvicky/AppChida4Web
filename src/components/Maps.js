@@ -36,7 +36,6 @@ class Maps extends Component {
   }
 
   render() {
-    
     return <MapComponent events={this.state.events}/> ;
   }
 }
