@@ -28,12 +28,12 @@ class Foaf extends Component {
 
 	constructor(){
 		super();
-    this.base = rebase.createClass(firebase.database());
-    this.addNode = this.addNode.bind(this);
-    this.state {
-    	users: {},
-    	police: {}
-    }
+		this.base = rebase.createClass(firebase.database());
+		this.addNode = this.addNode.bind(this);
+		this.state = {
+			users: {},
+			police: {}
+		}
 	}
 
 	addNode(){
