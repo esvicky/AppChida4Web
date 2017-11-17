@@ -4,7 +4,7 @@ import App from '../App';
 import NotFound from '../components/NotFound';
 import AvPriv from '../components/AvPriv';
 import TermsCond from '../components/TermsCond';
-import Foaf from '../components/Foaf';
+import FoafGraph from '../components/FoafGraph';
 
 export const DefaultRouteConfig = () =>  (
   <BrowserRouter>
@@ -12,7 +12,7 @@ export const DefaultRouteConfig = () =>  (
       <Route path="/:userId/:eventId" component={App} />
       <Route path="/avisodeprivacidad" component={AvPriv} />
       <Route path="/terminosycondiciones" component={TermsCond} />
-      <Route path="/foaf" component={Foaf} />
+      <Route path="/foafweb" component={FoafGraph} />
       <Route component={NotFound} />
     </Switch>
   </BrowserRouter>

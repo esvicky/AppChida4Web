@@ -30,4 +30,5 @@ class AvPriv extends Component {
     }
 }
 
+
 export default AvPriv;

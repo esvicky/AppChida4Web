@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component , PropTypes } from 'react';
 import firebase from 'firebase';
 import rebase from 're-base';
-import { CreateNodes } from '../helpers/CreateNodes';
+import * as d3 from 'd3'
 
 class Foaf extends Component {
 
@@ -46,7 +46,7 @@ class Foaf extends Component {
 	}
 
 	render(){
-		return <CreateNodes users={this.state.users} police={this.state.police} />;
+		return
 	}
 }
 

@@ -33,6 +33,7 @@ class App extends Component {
             <h1 className="App-title">KEEP ME SAFE</h1>
           </footer>
         </div>
+        
       </div>
     );
   }

@@ -11,6 +11,10 @@
     ],
     "rewrites": [
       {
+        "source": "/foaf/**",
+        "function": "foaf"
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }
