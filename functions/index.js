@@ -1,3 +1,6 @@
+import { Promise } from '../../../../AppData/Local/Microsoft/TypeScript/2.6/node_modules/@types/twilio/node_modules/@types/q';
+import { setTimeout } from 'timers';
+
 const accountSid = 'AC189fad9eef9a38b7c137caa7a4b9273b';
 const authToken = 'a5cc77d84f5b391b152f79c24a07a082';
 const twilioPhone = '+19526796269';
@@ -364,7 +367,7 @@ exports.foaf = functions.https.onRequest((req, res) => {
   });
 })
 
-exports.alert = functions.database
+exports.sms = functions.database
   .ref('/users/{userId}/emergency/status')
   .onWrite( event => {
     const status = event.data.val();
@@ -393,16 +396,16 @@ exports.alert = functions.database
         const member = Object.keys(mem).map(key => {
           return {
             phone: mem[key].phone, 
-            name: mem[key].name.split('/')[0],
             mail: mem[key].email
           }});
         console.log(`Member data: ${JSON.stringify(member)}`);
+        
         //User Profile
         const us = JSON.parse(JSON.stringify(userResult));
         const user = `${us.split('/')[0].toUpperCase()} ${us.split('/')[1].toUpperCase()}`;
         console.log(`This is Us: ${user}`);
         
-        for(let {name, phone, mail} of member){
+        for(let {phone, mail} of member){
           const body = `KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}` 
 
           twilio.messages
@@ -414,12 +417,65 @@ exports.alert = functions.database
           .then((message) => console.log(message.sid, 'success'))
           .catch(e => console.log(e));
 
+        }
+
+      });
+    }
+  }
+);
+
+exports.mailto = functions.database
+  .ref('/users/{userId}/emergency/status')
+  .onWrite( event => {
+    const status = event.data.val();
+    console.log(status);
+    if(status){
+      //Obtengo el UserId
+      const userId = event.params.userId;
+      console.log(`UserId:  ${userId}`);
+      
+      //Obtengo el objeto de events, members, users
+      const eventRef = event.data.adminRef.root.child(`/users/${userId}/emergency/events/`);
+      const memberRef = event.data.adminRef.root.child(`/users/${userId}/members/`);
+      const userRef = event.data.adminRef.root.child(`/users/${userId}/profile/name`);
+      const events = eventRef.once("value");
+      const members = memberRef.once("value");
+      const userInf = userRef.once("value");
+
+      //Creo una promise para acceder a los objetos
+      Promise.all([events, members, userInf]).then(([eventsResult, membersResult, userResult]) => {
+        //EventID
+        const eve = JSON.parse(JSON.stringify(eventsResult));
+        const eventId = Object.keys(eve).pop();
+        console.log(`This eventId ${eventId}`);
+        //Member object
+        const mem = JSON.parse(JSON.stringify(membersResult));
+        const member = Object.keys(mem).map(key => {
+          return {
+            phone: mem[key].phone, 
+            mail: mem[key].email
+          }
+        });
+        console.log(`Member data: ${JSON.stringify(member)}`);
+
+        //User Profile
+        const us = JSON.parse(JSON.stringify(userResult));
+        const user = `${us.split('/')[0].toUpperCase()} ${us.split('/')[1].toUpperCase()}`;
+        console.log(`This is Us: ${user}`);
+        
+        for(let {phone, mail} of member){
+          const body = `KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}` 
+          const html = `<body>
+            <p><img src="./Warning.png" WIDTH=80 HEIGHT=80 align="left" hspace="10"><h3><I> EMERGENCIA DETECTADA!</I></h3></p>
+            <p> KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo <a href="https://datausers-432fe.firebaseapp.com/${userId}/${eventId}"> dando clic aquí. </a> </p> 
+          </body>`;
+
           const msg = {
             to: mail,
             from: 'noreply@keepmesafe.com',
             subject: 'Emergencia Keep Me Safe',
-            text: body,
-            html: body,
+            text: "",
+            html: html,
           };
           sgMail.send(msg);
         }
@@ -428,3 +484,19 @@ exports.alert = functions.database
     }
   }
 );
+
+sleep(ms){
+  return new Promise(result => setTimeout(result, ms))
+};
+
+exports.police = functions.database
+.ref('/users/{userId}/emergency/status')
+.onWrite( event => {
+  const status = event.data.val();
+  console.log(status);
+  if(status){
+    Promise.all(this.sleep(120000)).then(() => {
+      console.log('Two minutes later... ');
+    });
+  }
+});
