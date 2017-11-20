@@ -1,10 +1,7 @@
-import { Promise } from '../../../../AppData/Local/Microsoft/TypeScript/2.6/node_modules/@types/twilio/node_modules/@types/q';
-import { setTimeout } from 'timers';
-
-const accountSid = 'AC189fad9eef9a38b7c137caa7a4b9273b';
-const authToken = 'a5cc77d84f5b391b152f79c24a07a082';
-const twilioPhone = '+19526796269';
-const sendGridKey = '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';
+const accountSid = 'YouraccountSid';
+const authToken = 'YourauthToken';
+const twilioPhone = 'YoourtwilioPhone';
+const sendGridKey = 'yoourSendGridKey';
 
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
@@ -406,8 +403,9 @@ exports.sms = functions.database
         console.log(`This is Us: ${user}`);
         
         for(let {phone, mail} of member){
-          const body = `KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}` 
-
+          const body = `KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`;
+          console.log(body);
+/*
           twilio.messages
           .create({
             to: `+52${phone}`,
@@ -415,7 +413,7 @@ exports.sms = functions.database
             body: body,
           })
           .then((message) => console.log(message.sid, 'success'))
-          .catch(e => console.log(e));
+          .catch(e => console.log(e));*/
 
         }
 
@@ -464,20 +462,20 @@ exports.mailto = functions.database
         console.log(`This is Us: ${user}`);
         
         for(let {phone, mail} of member){
-          const body = `KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}` 
-          const html = `<body>
-            <p><img src="./Warning.png" WIDTH=80 HEIGHT=80 align="left" hspace="10"><h3><I> EMERGENCIA DETECTADA!</I></h3></p>
-            <p> KEEP ME SAFE detectó una emergencia para ${user}. Ubícalo <a href="https://datausers-432fe.firebaseapp.com/${userId}/${eventId}"> dando clic aquí. </a> </p> 
-          </body>`;
-
+          const body = `KEEP ME SAFE detectó una emergencia para ${user}. \nUbícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`;
+          const texting = `KEEP ME SAFE detectó una emergencia para ${user}. Te hemos notificado por SMS y CORREO, por favor verifícalo.`
+          console.log(body);
+          console.log(texting);
+          /*
           const msg = {
             to: mail,
             from: 'noreply@keepmesafe.com',
             subject: 'Emergencia Keep Me Safe',
-            text: "",
-            html: html,
+            text: texting,
+            html: body,
           };
           sgMail.send(msg);
+          */
         }
 
       });
@@ -485,18 +483,75 @@ exports.mailto = functions.database
   }
 );
 
-sleep(ms){
-  return new Promise(result => setTimeout(result, ms))
-};
-
 exports.police = functions.database
 .ref('/users/{userId}/emergency/status')
 .onWrite( event => {
   const status = event.data.val();
   console.log(status);
-  if(status){
-    Promise.all(this.sleep(120000)).then(() => {
+  setTimeout(() => {
+    if(status){
       console.log('Two minutes later... ');
-    });
-  }
+      console.log(`Status:  ${status}`);
+
+      //Obtengo el UserId
+      const userId = event.params.userId;
+      console.log(`UserId:  ${userId}`);
+      
+      //Obtengo el objeto de events, police, users
+      const eventRef = event.data.adminRef.root.child(`/users/${userId}/emergency/events/`);
+      const policeRefP = event.data.adminRef.root.child(`/police/phone`);
+      const policeRefM = event.data.adminRef.root.child(`/police/email`);
+      const userRef = event.data.adminRef.root.child(`/users/${userId}/profile/name`);
+
+      const events = eventRef.once("value");
+      const policePhone = policeRefP.once("value");
+      const policeMail = policeRefM.once("value");
+      const userInf = userRef.once("value");
+  
+      //Creo una promise para acceder a los objetos
+      Promise.all([events, policePhone, policeMail, userInf]).then(([eventsResult, policeResP, policeResM, userResult]) => {
+        //EventID
+        const eve = JSON.parse(JSON.stringify(eventsResult));
+        const eventId = Object.keys(eve).pop();
+        console.log(`This eventId ${eventId}`);
+
+        //Police object
+        const phone = JSON.parse(JSON.stringify(policeResP));
+        const mail = JSON.parse(JSON.stringify(policeRefM));
+        console.log(`Police data: ${JSON.stringify(phone)}  ${JSON.stringify(mail)}`);
+  
+        //User Profile
+        const us = JSON.parse(JSON.stringify(userResult));
+        const user = `${us.split('/')[0].toUpperCase()} ${us.split('/')[1].toUpperCase()}`;
+        console.log(`This is Us: ${user}`);
+        
+        /*
+        const body = `KEEP ME SAFE detectó una emergencia para ${user}. \nUbícalo en: https://datausers-432fe.firebaseapp.com/${userId}/${eventId}`;
+        const texting = `KEEP ME SAFE detectó una emergencia para ${user}. Te hemos notificado por SMS y CORREO, por favor verifícalo.`
+  
+        console.log(`Policia message ${body}`);
+        console.log(`Policia message ${texting}`);
+          
+          twilio.messages
+          .create({
+            to: `+52${phone}`,
+            from: twilioPhone,
+            body: body,
+          })
+          .then((message) => console.log(message.sid, 'success'))
+          .catch(e => console.log(e));
+  
+          const msg = {
+            to: mail,
+            from: 'noreply@keepmesafe.com',
+            subject: 'Emergencia Keep Me Safe',
+            text: texting,
+            html: body,
+          };
+          sgMail.send(msg);*/
+  
+      });
+    }
+  }, 120000);
+  
 });
